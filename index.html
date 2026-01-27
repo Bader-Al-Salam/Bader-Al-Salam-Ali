@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS Styles (Same as your original) --- */
+        /* --- CSS Styles --- */
         :root {
             --primary-color: #0d8009; 
             --primary-dark: #000000;
@@ -20,7 +20,7 @@
             --success: #10B981;
             --info: #3B82F6;
             --radius: 15px;
-            --shadow: 0 5px 7px 3px #000000, 0px 0px 0px 0px #575b63;
+            --shadow: 0 5px 7px 3px rgba(0,0,0,0.1), 0px 0px 0px 0px rgba(0,0,0,0);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -38,7 +38,7 @@
 
         main { max-width: 1200px; margin: 1rem auto; padding: 0 1rem; position: relative; }
 
-        /* Home */
+        /* --- الصفحة الرئيسية --- */
         #home-view { display: block; animation: fadeIn 0.5s ease-in; }
         .welcome-hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); border-radius: var(--radius); color: white; margin-bottom: 2rem; box-shadow: var(--shadow); }
         .welcome-hero h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
@@ -50,23 +50,22 @@
         .menu-card { background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 150px; }
         .menu-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0, 0.1); border-color: var(--primary-color); }
         .menu-card i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 0.5rem; }
-        .menu-card h2 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.5rem; }
 
         .tracking-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin-top: 1rem; }
         .tracking-card { background: var(--card-bg); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 120px; }
         .tracking-card:hover { border-color: var(--secondary-color); transform: translateY(-3px); }
-        .tracking-card i { font-size: 1.8rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
 
-        /* Dashboard */
+        /* --- لوحة التحكم --- */
         #dashboard-view { display: none; animation: fadeIn 0.5s ease-in; }
         #auth-section { display: none; max-width: 100%; margin: 1rem auto; background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; width: 100%; }
         .form-group { margin-bottom:1rem; text-align: right; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; }
         .form-control { width: 100%; padding: 0.8rem; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 1rem; }
         .input-row .form-group { margin-bottom: 0; } 
-        .btn-submit { width: 100%; padding: 0.8rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size:1rem; }
+        .btn-submit { width: 100%; padding: 0.8rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size:1rem; transition: background 0.2s; }
+        .btn-submit:hover { filter: brightness(1.1); }
 
-        /* Panels */
+        /* Forms */
         #teacher-panel, #reciters-panel, #stages-panel { display: none; background: var(--card-bg); padding:1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 2rem; border-right:5px solid var(--secondary-color); }
         .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
 
@@ -75,43 +74,41 @@
         .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
         .stat-label { font-size: 0.85rem; color: var(--text-light); }
 
-        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 1px solid #E5E7EB; }
+        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 1px solid #E5E7EB; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; }
         th, td { padding: 0.8rem; text-align: right; border-bottom: 1px solid #E5E7EB; vertical-align: middle; white-space: nowrap; }
         
         .total-badge { background-color: #E0F2FE; color: #0369A1; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 5px; display: inline-block; }
-        .btn-delete { background-color: #FEE2E2; color: #991B1B; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-delete { background-color: #FEE2E2; color: #991B1B; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-delete:hover { background-color: #EF4444; color: white; }
-        .btn-edit { background-color: #DBEAFE; color: #1E40AF; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; margin-left: 5px; }
+        .btn-edit { background-color: #DBEAFE; color: #1E40AF; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.5rem; margin-left: 5px; }
         .btn-edit:hover { background-color: #3B82F6; color: white; }
-        
-        .btn-separator { background-color: #EF4444; color: white; border: 1px solid #DC2626; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 10px; display: flex; align-items: center; gap: 0.5rem; }
-        .btn-separator:hover { background-color: #DC2626; border-color: #B91C1C; transform: translateY(-1px); }
 
-        .btn-delete-all { background-color: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-right: auto; display: flex; align-items: center; gap: 0.5rem; }
+        .btn-separator { background-color: #EF4444; color: white; border: 1px solid #DC2626; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; display: none; margin-left: 10px; display: flex; align-items: center; gap: 0.5rem; }
+        .btn-separator:hover { background-color: #DC2626; }
+
+        .btn-delete-all { background-color: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; display: none; margin-right: auto; display: flex; align-items: center; gap: 0.5rem; }
         .btn-delete-all:hover { background-color: #DC2626; color: white; }
 
-        /* Separator Row */
+        /* Separator */
         .separator-row td { padding: 10px 0; border: none; background: #fff; }
         .red-separator-line { border-top: 3px solid #EF4444; width: 100%; margin: 0; position: relative; }
-        .separator-label { position: absolute; top: 50%; left: 95%; transform: translate(-50%, -50%); background-color: #ff0000; padding: 2px 12px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: var(--text-main); box-shadow: 0 5px 5px rgb(14, 110, 2); white-space: nowrap; z-index: 1; }
-        .separator-delete-btn { position: absolute; left: 50%; top: -12px; transform: translateX(-50%); background: white; border:4px solid #ff0000; color: #ef4444; box-shadow: 0 5px 5px rgb(14, 110, 2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; font-weight: bold; z-index: 2; }
+        .separator-label { position: absolute; top: 50%; left: 95%; transform: translate(-50%, -50%); background-color: #ff0000; padding: 2px 12px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: var(--text-main); box-shadow: 0 5px 5px rgba(0,0,0,0.2); white-space: nowrap; z-index: 1; }
+        .separator-delete-btn { position: absolute; left: 50%; top: -12px; transform: translateX(-50%); background: white; border:4px solid #ff0000; color: #ef4444; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; font-weight: bold; z-index: 2; }
         .separator-delete-btn:hover { background: #EF4444; color: white; }
 
         .rating-wrapper { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .btn-like { background: none; border: 1px solid #E5E7EB; border-radius: 20px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: transform 0.2s, background-color 0.2s; color: var(--text-main); height: 32px; }
-        .btn-like:hover:not(:disabled) { background-color: #FCE7F3; border-color: #EC4899; transform: scale(1.05); }
-        .btn-like:disabled { cursor: default; opacity: 0.6; background-color: #f9fafb; }
-        .btn-like i { color: #EC4899; font-size: 0.9rem; }
-        .like-count { font-weight: 700; font-size: 0.8rem; }
-
+        .btn-like { background: none; border: 1px solid #E5E7EB; border-radius: 20px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; color: var(--text-main); height: 32px; }
+        .btn-like:hover:not(:disabled) { background-color: #FCE7F3; border-color: #EC4899; }
+        .btn-like:disabled { opacity: 0.6; background-color: #f9fafb; cursor: not-allowed; }
+        .btn-like i { color: #EC4899; }
+        
         .badge { padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; white-space: nowrap;}
         .badge-excellent { background-color: #D1FAE5; color: #065F46; }
         .badge-good { background-color: #DBEAFE; color: #1E40AF; }
         .badge-needs-improvement { background-color: #FEE2E2; color: #991B1B; }
 
         .empty-state { text-align: center; padding: 3rem; color: var(--text-light); }
-        .frequency-tag { font-size: 0.75rem; color: var(--text-light); background-color: #F3F4F6; padding: 2px 6px; border-radius: 4px; margin-right: 5px; }
 
         #toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
         .toast { padding: 0.8rem; border-radius: 8px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease-out; text-align: center; font-size: 0.9rem; }
@@ -120,22 +117,38 @@
 
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--primary-color); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
         .btn-cancel-edit { background-color: #9CA3AF; color: white; width: auto; display: none; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem; }
 
         /* Modal */
         #dev-info-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-content { background-color: white; padding: 2rem; border-radius: var(--radius); box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 400px; width: 90%; text-align: center; position: relative; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .close-modal { position: absolute; top: 10px; left: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
-        .dev-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 2.5rem; border: 4px solid white; box-shadow: var(--shadow); }
+        .dev-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 2.5rem; border: 4px solid white; }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         @media (max-width: 768px) {
-            .logo { font-size: 1rem; } .stat-value { font-size: 1.8rem; } .input-row { grid-template-columns: 1fr; }
-            .cards-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-            .tracking-grid { grid-template-columns: 1fr; }
-            .menu-card { padding: 0.8rem 0.5rem; min-height: 120px; }
-            .menu-card i { font-size: 1.6rem; }
+            .logo { font-size: 1rem; }
+            .stat-value { font-size: 1.8rem; }
+            .input-row { grid-template-columns: 1fr; gap: 0.5rem; }
+            .rating-wrapper { flex-direction: row; justify-content: space-between; width: 100%; }
+            .btn-like { flex-grow: 1; justify-content: center; padding: 0.4rem; }
+            .btn-home { display: block; }
             .nav-actions span { display: none; }
+            .nav-actions button i { margin: 0; font-size: 1.2rem; }
+
+            .cards-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
+            .menu-card { padding: 0.8rem 0.5rem; min-height: 120px; }
+            .menu-card i { font-size: 1.6rem; margin-bottom: 0.4rem; }
+            .menu-card h2 { font-size: 0.85rem; margin-bottom: 0.2rem; }
+
+            .tracking-grid { grid-template-columns: 1fr; }
+
+            #teacher-panel, #reciters-panel, #stages-panel { padding: 1rem; margin-bottom: 1.5rem; }
+            .form-group { margin-bottom: 0.6rem; }
+            .form-group label { font-size: 0.85rem; margin-bottom: 0.3rem; }
+            .form-control { padding: 0.6rem; font-size: 0.95rem; }
+            .btn-submit { padding: 0.6rem; font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -148,9 +161,11 @@
                 <button id="btn-home" class="nav-actions btn-home" onclick="navigateTo('home')">
                     <i class="fas fa-home"></i> <span>الرئيسية</span>
                 </button>
+                
                 <button class="btn-dev-info" onclick="toggleDevInfo()">
                     <i class="fas fa-user-tie"></i> <span>عن المطور</span>
                 </button>
+
                 <span id="user-display" style="display:none; font-weight:600; font-size: 0.9rem;"></span>
                 <button id="btn-logout" onclick="handleLogout()" style="display:none; color:var(--danger);"><i class="fas fa-sign-out-alt"></i></button>
                 <button id="btn-login-nav" class="btn-login" onclick="toggleAuthModal()"><i class="fas fa-sign-in-alt"></i> <span>دخول المعلم</span></button>
@@ -159,12 +174,12 @@
     </header>
 
     <main>
-        <!-- قسم تسجيل الدخول (محاكاة) -->
+        <!-- قسم تسجيل الدخول -->
         <section id="auth-section">
             <h3>تسجيل دخول المعلم</h3>
-            <p style="font-size:0.8rem; color:#666; margin-bottom:10px;">كلمة المرور الافتراضية: 123456</p>
+            <p style="font-size:0.8rem; color:#666; margin-bottom:10px;">كلمة السر الافتراضية: 123456</p>
             <form id="login-form" onsubmit="handleLogin(event)">
-                <div class="form-group"><label>كلمة المرور</label><input type="password" id="password" class="form-control" placeholder="ادخل كلمة المرور" required></div>
+                <div class="form-group"><label>كلمة المرور</label><input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور" required></div>
                 <button type="submit" class="btn-submit"><span id="login-btn-text">دخول</span><span id="login-loader" class="loader" style="display:none;"></span></button>
                 <button type="button" onclick="toggleAuthModal()" style="margin-top:1rem; border:none; background:none; text-decoration:underline; cursor:pointer; color: var(--text-light);">إلغاء</button>
             </form>
@@ -198,15 +213,18 @@
                 <div class="menu-card" onclick="navigateTo('reciters')">
                     <i class="fas fa-book-open"></i>
                     <h2>المختبرون بالأجزاء</h2>
+                    <p>الأجزاء الشهرية والدرجات</p>
                 </div>
+
                 <div class="menu-card" onclick="navigateTo('stages')">
                     <i class="fas fa-layer-group"></i>
                     <h2>اختبار المراحل</h2>
+                    <p>السدس، الثلث، النصف والقرآن كامل</p>
                 </div>
             </div>
         </section>
 
-        <!-- 2. لوحة التحكم -->
+        <!-- 2. لوحة التحكم والبيانات -->
         <section id="dashboard-view">
             <h2 id="page-title" style="margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px;">السجلات</h2>
 
@@ -224,14 +242,21 @@
 
                     <div id="monthly-input" class="form-group" style="display:none;">
                         <label>المجموع</label>
-                        <input type="text" id="monthly-text" class="form-control" placeholder="اكتب الوصف هنا...">
+                        <input type="text" id="monthly-text" class="form-control" placeholder="اكتب الوصف هنا (مثال: تسميع الجزء الأول، مراجعة...)">
                     </div>
                     <input type="hidden" id="frequency" value="daily">
 
                     <div class="input-row" style="margin-top: 1rem;">
                         <div class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="needs-improvement">ضعيف</option></select></div>
-                        <div class="form-group" id="attendance-group"><label>الحالة</label><select id="attendance" class="form-control"><option value="present" selected>حضور</option><option value="absent">غياب</option></select></div>
-                        <div class="form-group" style="margin-top:0px;"><label>الملاحظة</label><input type="text" id="notes" class="form-control" placeholder="ملاحظات..."></div>
+                        
+                        <div class="form-group" id="attendance-group">
+                            <label>الحالة</label>
+                            <select id="attendance" class="form-control">
+                                <option value="present" selected>حضور</option>
+                                <option value="absent">غياب</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-top:0px;"><label>الملاحظة</label><input type="text" id="notes" class="form-control" placeholder="ملاحظات اختيارية..."></div>
                     </div>
 
                     <div style="text-align:left; margin-top: 1rem;">
@@ -241,14 +266,17 @@
                 </form>
             </section>
 
-            <!-- نموذج الأجزاء -->
+            <!-- نموذج المختبرين في الأجزاء -->
             <section id="reciters-panel">
                 <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">إضافة مختبر جديد (أجزاء)</h3>
                 <form id="reciters-form" onsubmit="handleRecitersSubmit(event)">
                     <div class="input-row">
                         <div class="form-group"><label>اسم الطالب</label><input type="text" id="reciter-name" class="form-control" placeholder="اسم الطالب" required></div>
-                        <div class="form-group"><label>الجزء</label><input type="text" id="reciter-amount" class="form-control" placeholder="اسم الجزء..." required></div>
-                        <div class="form-group"><label>الدرجة %</label><input type="number" id="reciter-score" class="form-control" min="0" max="100" placeholder="100" required></div>
+                        <div class="form-group">
+                            <label>الجزء</label>
+                            <input type="text" id="reciter-amount" class="form-control" placeholder="اكتب اسم الجزء هنا..." required>
+                        </div>
+                        <div class="form-group"><label>الدرجة من 100%</label><input type="number" id="reciter-score" class="form-control" min="0" max="100" placeholder="100" required></div>
                         <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div style="text-align:left; margin-top: 1rem;">
@@ -258,24 +286,27 @@
                 </form>
             </section>
 
-            <!-- نموذج المراحل -->
+            <!-- نموذج اختبار المراحل -->
             <section id="stages-panel">
                 <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">اختبار مراحل</h3>
                 <form id="stages-form" onsubmit="handleStagesSubmit(event)">
                     <div class="input-row">
                         <div class="form-group"><label>اسم الطالب</label><input type="text" id="stages-name" class="form-control" placeholder="اسم الطالب" required></div>
+                        
                         <div class="form-group">
                             <label>المرحلة</label>
                             <input type="hidden" id="stages-amount" value="1">
                             <select id="stages-unit" class="form-control" style="width: 100%;" required>
                                 <option value="" disabled selected>اختر المرحلة</option>
                                 <option value="السدس الأول">السدس الأول</option><option value="السدس الثاني">السدس الثاني</option>
-                                <option value="الثلث الأول">الثلث الأول</option><option value="الثلث الثاني">الثلث الثاني</option>
+                                <option value="سدس الثالث">سدس الثالث</option><option value="السدس الرابع">السدس الرابع</option>
+                                <option value="السدس الخامس">السدس الخامس</option><option value="السدس السادس">السدس السادس</option>
+                                <option value="الثلث الأول">الثلث الأول</option><option value="الثلث الثاني">الثلث الثاني</option><option value="الثلث الثالث">الثلث الثالث</option>
                                 <option value="نصف الأول">نصف الأول</option><option value="نصف الثاني">نصف الثاني</option>
                                 <option value="القرآن كامل">القرآن كامل</option>
                             </select>
                         </div>
-                        <div class="form-group"><label>الدرجة %</label><input type="number" id="stages-score" class="form-control" min="0" max="100" placeholder="100" required></div>
+                        <div class="form-group"><label>الدرجة من 100%</label><input type="number" id="stages-score" class="form-control" min="0" max="100" placeholder="100" required></div>
                         <div class="form-group"><label>التقييم</label><select id="stages-level" class="form-control" required><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:10px;"><label>ملاحظات</label><input type="text" id="stages-notes" class="form-control" placeholder="ملاحظات..."></div>
@@ -295,8 +326,15 @@
             <section>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
                     <div style="display:flex; gap:10px; margin-right: auto;">
-                        <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all"><i class="fas fa-trash-alt"></i> <span id="btn-clear-text">مسح الكل</span></button>
-                        <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator"><i class="fas fa-grip-lines"></i> <span id="sep-text">فصل البيانات</span></button>
+                        <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all">
+                            <i class="fas fa-trash-alt"></i>
+                            <span id="btn-clear-text">مسح الكل</span>
+                        </button>
+                        
+                        <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator">
+                            <i class="fas fa-grip-lines"></i>
+                            <span id="sep-text">فصل البيانات</span>
+                        </button>
                     </div>
                     <h3 style="font-size: 1.1rem; margin-right: 10px;">السجل</h3>
                 </div>
@@ -306,8 +344,8 @@
                             <tr>
                                 <th>الطالب</th>
                                 <th>المقدار</th>
-                                <th id="th-score" style="display:none;">الدرجة %</th>
-                                <th>التقييم</th>
+                                <th id="th-score" style="display:none;">الدرجة من 100%</th>
+                                <th>التقييم والتفاعل</th> 
                                 <th>ملاحظات</th>
                                 <th>التاريخ</th>
                                 <th id="th-actions" style="display:none;">إجراءات</th> 
@@ -321,14 +359,19 @@
         </section>
     </main>
 
-    <!-- النافذة المنبثقة -->
+    <!-- النافذة المنبثقة للمطور -->
     <div id="dev-info-modal" onclick="if(event.target === this) toggleDevInfo()">
         <div class="modal-content">
             <button class="close-modal" onclick="toggleDevInfo()">&times;</button>
+            
             <div class="dev-avatar"><i class="fas fa-laptop-code"></i></div>
             <h3 class="dev-name">Abdulrahman Al Dawood</h3>
             <p class="dev-role">مطور ومصمم الموقع</p>
-            <div style="margin-top:1rem;"><i class="fas fa-code-branch"></i> الإصدار 2.0.0 (SQLite)</div>
+
+            <div style="margin-top: 1rem;">
+                <p style="font-size: 0.85rem; color: var(--text-light);">نسخة سحابية - PostgreSQL</p>
+                <p style="font-size: 0.85rem; color: var(--text-light);">جميع الحقوق محفوظة &copy; 2026</p>
+            </div>
         </div>
     </div>
 
@@ -337,27 +380,31 @@
     <script>
         // --- Variables ---
         let currentView = 'home'; 
-        let cachedData = []; // Stores fetched data
+        let cachedData = []; // Stores all records fetched from server
         let selectedTrackingFreq = 'daily'; 
         let editId = null;
         let isAdmin = false;
-        const TEACHER_PASSWORD = '123456'; // Simple Password
+        const TEACHER_PASSWORD = '123456'; // Simple authentication for Admin
 
-        // --- Auth Logic (Simulated) ---
+        // --- Auth Logic ---
         window.toggleAuthModal = () => {
             const authSection = document.getElementById('auth-section');
             const homeView = document.getElementById('home-view');
             const dashboardView = document.getElementById('dashboard-view');
             
             const isHidden = authSection.style.display === 'none' || authSection.style.display === '';
+
             if (isHidden) {
                 authSection.style.display = 'block';
                 homeView.style.display = 'none';
                 dashboardView.style.display = 'none';
             } else {
                 authSection.style.display = 'none';
-                if(isAdmin) navigateTo('reciters');
-                else navigateTo('home');
+                if (isAdmin) {
+                    navigateTo('reciters');
+                } else {
+                    navigateTo('home');
+                }
             }
         };
 
@@ -366,10 +413,11 @@
             const pass = document.getElementById('password').value;
             const l = document.getElementById('login-loader');
             l.style.display = 'inline-block';
-
-            setTimeout(() => { // Simulate network delay
+            
+            // Simulate network delay
+            setTimeout(() => {
                 l.style.display = 'none';
-                if(pass === TEACHER_PASSWORD) {
+                if (pass === TEACHER_PASSWORD) {
                     isAdmin = true;
                     document.getElementById('btn-login-nav').style.display = 'none';
                     document.getElementById('btn-logout').style.display = 'inline-block';
@@ -385,7 +433,7 @@
             }, 500);
         };
 
-        window.handleLogout = () => {
+        window.handleLogout = () => { 
             isAdmin = false;
             document.getElementById('btn-login-nav').style.display = 'inline-block';
             document.getElementById('btn-logout').style.display = 'none';
@@ -395,30 +443,62 @@
             showToast('تم الخروج', 'info');
         };
 
-        // --- Data Fetching (API) ---
+        // --- Data Fetching & API Calls ---
+
         async function fetchRecords() {
             try {
+                // مسار نسبي يعمل محلياً وفي السحابة
                 const response = await fetch('/api/records');
                 const result = await response.json();
-                if(result.message === 'success') {
+                
+                if (result.message === 'success') {
                     cachedData = result.data;
                     renderTable();
+                } else {
+                    console.error('Server returned:', result);
                 }
             } catch (err) {
-                console.error("Fetch Error:", err);
+                console.error("Fetch error:", err);
+                showToast('فشل تحميل البيانات، تحقق من الاتصال', 'error');
             }
         }
 
-        // --- Core UI Logic ---
+        async function saveData(urlMethod, id, payload) {
+            // مسار نسبي
+            const url = id ? `/api/records/${id}` : '/api/records';
+            const method = id ? 'PUT' : 'POST';
+            
+            try {
+                const res = await fetch(url, { 
+                    method: method, 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify(payload) 
+                });
+                
+                if (res.ok) {
+                    showToast(id ? 'تم التحديث' : 'تم الحفظ', 'success');
+                    handleCancelEdit();
+                    fetchRecords(); // Refresh data
+                } else {
+                    throw new Error('Server Error');
+                }
+            } catch(e) { 
+                console.error(e);
+                showToast('فشل الاتصال بالسيرفر', 'error'); 
+            }
+        }
+
+        // --- UI Logic ---
 
         window.toggleDevInfo = () => {
-            const m = document.getElementById('dev-info-modal');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+            const modal = document.getElementById('dev-info-modal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
         window.openTracking = (freq) => {
             selectedTrackingFreq = freq;
             document.getElementById('frequency').value = freq;
+            
             const attendanceGroup = document.getElementById('attendance-group');
             const rangeInputs = document.getElementById('range-inputs');
             const monthlyInput = document.getElementById('monthly-input');
@@ -428,26 +508,65 @@
 
             if (freq === 'monthly') {
                 attendanceGroup.style.display = 'none';
-                rangeInputs.style.display = 'none';
-                monthlyInput.style.display = 'block';
+                rangeInputs.style.display = 'none'; 
+                monthlyInput.style.display = 'block'; 
                 fromInput.removeAttribute('required');
                 toInput.removeAttribute('required');
                 monthlyTextInput.setAttribute('required', 'true');
+                monthlyTextInput.placeholder = "اكتب الوصف هنا (إجباري)...";
+
             } else {
                 attendanceGroup.style.display = 'block';
-                rangeInputs.style.display = 'grid';
-                monthlyInput.style.display = 'none';
+                rangeInputs.style.display = 'grid'; 
+                monthlyInput.style.display = 'none'; 
                 fromInput.setAttribute('required', 'true');
                 toInput.setAttribute('required', 'true');
                 monthlyTextInput.removeAttribute('required');
             }
-            navigateTo('dashboard', freq === 'daily' ? 'متابعة يومية' : (freq === 'weekly' ? 'متابعة أسبوعية' : 'متابعة شهرية'));
+
+            let title = '';
+            if(freq === 'daily') title = 'متابعة يومية';
+            else if(freq === 'weekly') title = 'متابعة أسبوعية';
+            else if(freq === 'monthly') title = 'متابعة شهرية';
+            
+            navigateTo('dashboard', title);
         }
 
         window.calculateTotal = () => {
             const from = parseFloat(document.getElementById('amount-from').value) ||0;
             const to = parseFloat(document.getElementById('amount-to').value) ||0;
-            document.getElementById('amount-total').value = (to > from) ? to - from : 0;
+            let total = 0;
+            if (to > from) total = to - from;
+            document.getElementById('amount-total').value = total;
+        }
+
+        window.addSeparatorLine = async () => {
+            if(!confirm('هل تريد وضع خط أحمر للفصل هنا؟')) return;
+            
+            try {
+                const now = new Date();
+                const dayName = now.toLocaleDateString('ar-SY', { weekday: 'long' });
+
+                let separatorFreq = selectedTrackingFreq; 
+                if (currentView === 'reciters') separatorFreq = 'reciters';
+                else if (currentView === 'stages') separatorFreq = 'stages';
+
+                await fetch('/api/records', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'separator',
+                        frequency: separatorFreq, 
+                        dayLabel: dayName, 
+                        uoi: Date.now()
+                    })
+                });
+                showToast('تم وضع خط الفصل بنجاح', 'success');
+                fetchRecords();
+            } catch(err) { 
+                console.error(err);
+                showToast('حدث خطأ أثناء وضع الخط', 'error'); 
+            }
         }
 
         window.navigateTo = (view, customTitle = null) => {
@@ -456,23 +575,47 @@
             const homeBtn = document.getElementById('btn-home');
             const pageTitle = document.getElementById('page-title');
             const authSection = document.getElementById('auth-section');
-            
+            const clearAllBtn = document.getElementById('btn-clear-all');
+            const separatorBtn = document.getElementById('btn-separator');
+            const clearAllText = document.getElementById('btn-clear-text');
+            const thScore = document.getElementById('th-score'); 
+
             authSection.style.display = 'none';
             currentView = view;
+
+            if (thScore) thScore.style.display = 'none';
 
             if (view === 'home') {
                 homeView.style.display = 'block';
                 dashboardView.style.display = 'none';
                 homeBtn.style.display = 'none';
                 handleCancelEdit();
-            } else {
+            } else if (view === 'reciters') {
                 homeView.style.display = 'none';
                 dashboardView.style.display = 'block';
                 homeBtn.style.display = 'block';
-                if(customTitle) pageTitle.textContent = customTitle;
-                
+                pageTitle.textContent = customTitle || 'المختبرون في الأجزاء لهذا الشهر';
+                clearAllText.textContent = 'مسح الكل';
+                if(thScore) thScore.style.display = 'table-cell';
                 updateUIState();
-                renderTable(); // Refresh table
+                fetchRecords();
+            } else if (view === 'stages') {
+                homeView.style.display = 'none';
+                dashboardView.style.display = 'block';
+                homeBtn.style.display = 'block';
+                pageTitle.textContent = customTitle || 'اختبار المراحل';
+                clearAllText.textContent = 'مسح الكل';
+                if(thScore) thScore.style.display = 'table-cell';
+                updateUIState();
+                fetchRecords();
+            } else if (view === 'dashboard') {
+                homeView.style.display = 'none';
+                dashboardView.style.display = 'block';
+                homeBtn.style.display = 'block';
+                pageTitle.textContent = customTitle || 'السجلات';
+                clearAllText.textContent = 'مسح الكل';
+                updateUIState();
+                fetchRecords();
             }
             updateUIState();
         };
@@ -484,108 +627,79 @@
             const actionsHeader = document.getElementById('th-actions');
             const clearBtn = document.getElementById('btn-clear-all');
             const sepBtn = document.getElementById('btn-separator');
-            const thScore = document.getElementById('th-score');
-
-            // Reset panels
+            
             teacherPanel.style.display = 'none';
             recitersPanel.style.display = 'none';
             stagesPanel.style.display = 'none';
-            thScore.style.display = 'none';
 
             if (isAdmin) {
                 clearBtn.style.display = 'flex';
                 sepBtn.style.display = 'flex';
-                actionsHeader.style.display = 'table-cell';
+                actionsHeader.style.display = 'table-cell'; 
 
                 if (currentView === 'reciters') {
                     recitersPanel.style.display = 'block';
-                    thScore.style.display = 'table-cell';
                 } else if (currentView === 'stages') {
                     stagesPanel.style.display = 'block';
-                    thScore.style.display = 'table-cell';
                 } else if (currentView === 'dashboard') {
                     teacherPanel.style.display = 'block';
                 }
             } else {
                 clearBtn.style.display = 'none';
                 sepBtn.style.display = 'none';
-                actionsHeader.style.display = 'none';
+                actionsHeader.style.display = 'none'; 
             }
         }
 
-        // --- Submit Logic ---
-
-        window.addSeparatorLine = async () => {
-            if(!confirm('هل تريد وضع خط أحمر للفصل هنا؟')) return;
-            const now = new Date();
-            const dayName = now.toLocaleDateString('ar-SY', { weekday: 'long' });
-            
-            let sepFreq = selectedTrackingFreq;
-            if (currentView === 'reciters') sepFreq = 'reciters';
-            else if (currentView === 'stages') sepFreq = 'stages';
-
-            try {
-                await fetch('/api/records', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: 'separator',
-                        frequency: sepFreq,
-                        dayLabel: dayName,
-                        uoi: Date.now()
-                    })
-                });
-                showToast('تم وضع خط الفصل', 'success');
-                fetchRecords();
-            } catch(err) { showToast('فشل', 'error'); }
-        }
-
-        async function saveData(urlMethod, id, payload) {
-            const url = id ? `/api/records/${id}` : '/api/records';
-            const method = id ? 'PUT' : 'POST';
-            
-            try {
-                const res = await fetch(url, { method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-                if(res.ok) {
-                    showToast(id ? 'تم التحديث' : 'تم الحفظ', 'success');
-                    handleCancelEdit();
-                    fetchRecords();
-                } else {
-                    throw new Error('Server Error');
-                }
-            } catch(e) { showToast('فشل الاتصال', 'error'); }
-        }
+        // --- Form Submissions ---
 
         window.handleSubmit = (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button[type="submit"]');
             const old = btn.innerHTML;
             btn.innerHTML = '<span class="loader"></span> جاري الحفظ...';
+            
+            try {
+                const frequency = document.getElementById('frequency').value; 
+                
+                let asdVal = 0;
+                let asdText = "";
 
-            const freq = document.getElementById('frequency').value;
-            let payload = {
-                qwe: document.getElementById('student-name').value,
-                zxc: document.getElementById('level').value,
-                nmk: document.getElementById('notes').value,
-                frequency: freq,
-                likes: 0,
-                uoi: Date.now()
-            };
+                if (frequency === 'monthly') {
+                    const monthlyTextVal = document.getElementById('monthly-text').value;
+                    asdText = monthlyTextVal;
+                    asdVal = 1; 
+                } else {
+                    const from = document.getElementById('amount-from').value;
+                    const to = document.getElementById('amount-to').value;
+                    const total = document.getElementById('amount-total').value;
+                    
+                    asdVal = parseInt(total) || 0;
+                    asdText = `من ${from} إلى ${to}`;
+                }
 
-            if (freq === 'monthly') {
-                payload.asdText = document.getElementById('monthly-text').value;
-                payload.asd = 1;
-            } else {
-                const from = parseInt(document.getElementById('amount-from').value);
-                const to = parseInt(document.getElementById('amount-to').value);
-                payload.asd = to - from;
-                payload.asdText = `من ${from} إلى ${to}`;
-                payload.page_from = from;
-                payload.page_to = to;
-                payload.attr = document.getElementById('attendance').value;
-            }
+                let dataPayload = {
+                    qwe: document.getElementById('student-name').value,
+                    asd: asdVal, 
+                    asdText: asdText, 
+                    unit: "", 
+                    zxc: document.getElementById('level').value,
+                    frequency: frequency, 
+                    nmk: document.getElementById('notes').value,
+                    likes: 0 
+                };
 
-            saveData('POST', editId, payload);
+                if(frequency !== 'monthly') { 
+                    dataPayload.page_from = parseInt(document.getElementById('amount-from').value) || 0;
+                    dataPayload.page_to = parseInt(document.getElementById('amount-to').value) || 0;
+                }
+
+                if (frequency !== 'monthly') {
+                    dataPayload.attr = document.getElementById('attendance').value;
+                }
+
+                saveData('POST', editId, dataPayload);
+            } catch(err) { showToast('فشل الحفظ', 'error'); }
             btn.innerHTML = old;
         };
 
@@ -595,19 +709,19 @@
             const old = btn.innerHTML;
             btn.innerHTML = '<span class="loader"></span> جاري الحفظ...';
 
-            const payload = {
+            const dataPayload = {
                 qwe: document.getElementById('reciter-name').value,
                 asd: 1,
                 asdText: document.getElementById('reciter-amount').value,
-                unit: 'جزء',
-                score: parseInt(document.getElementById('reciter-score').value),
+                unit: 'جزء', 
+                score: parseInt(document.getElementById('reciter-score').value), 
                 zxc: document.getElementById('reciter-level').value,
-                frequency: 'monthly', // Using 'monthly' as a tag for sorting
-                likes: 0,
-                uoi: Date.now()
+                frequency: 'monthly', // Storing as monthly for sorting logic
+                nmk: 'اختبار أجزاء',
+                likes: 0 
             };
 
-            saveData('POST', editId, payload);
+            saveData('POST', editId, dataPayload);
             btn.innerHTML = old;
             document.getElementById('reciters-form').reset();
         };
@@ -618,130 +732,175 @@
             const old = btn.innerHTML;
             btn.innerHTML = '<span class="loader"></span> جاري الحفظ...';
 
-            const payload = {
+            const amountInput = document.getElementById('stages-amount');
+            const amount = amountInput ? amountInput.value : 1; 
+
+            const dataPayload = {
                 qwe: document.getElementById('stages-name').value,
-                asd: 1,
+                asd: parseInt(amount),
                 unit: document.getElementById('stages-unit').value,
                 score: parseInt(document.getElementById('stages-score').value),
                 zxc: document.getElementById('stages-level').value,
                 nmk: document.getElementById('stages-notes').value,
                 frequency: 'stages',
-                likes: 0,
-                uoi: Date.now()
+                likes: 0 
             };
 
-            saveData('POST', editId, payload);
+            saveData('POST', editId, dataPayload);
             btn.innerHTML = old;
             document.getElementById('stages-form').reset();
-        };
-
-        window.handleDelete = async (id) => {
-            if(!confirm('حذف نهائياً؟')) return;
-            try {
-                await fetch(`/api/records/${id}`, { method: 'DELETE' });
-                if(editId === id) handleCancelEdit();
-                showToast('تم الحذف', 'success');
-                fetchRecords();
-            } catch(e) { showToast('فشل الحذف', 'error'); }
+            document.getElementById('stages-amount').value = '1';
         };
 
         window.handleLike = async (id) => {
             let likedIds = JSON.parse(localStorage.getItem('hifz_platform_likes') || "[]");
-            if(likedIds.includes(id)) return showToast('تفاعلت مسبقاً!', 'info');
+            if (likedIds.includes(id)) { showToast('تفاعلت مسبقاً!', 'info'); return; }
             try {
                 await fetch(`/api/records/${id}/like`, { method: 'POST' });
                 likedIds.push(id);
                 localStorage.setItem('hifz_platform_likes', JSON.stringify(likedIds));
-                showToast('شكراً ❤️', 'success');
-                fetchRecords(); // refresh to show new count
-            } catch(e) { showToast('فشل', 'error'); }
+                showToast('شكراً على تفاعلك ❤️', 'success');
+                fetchRecords();
+            } catch(err) { showToast('فشل الإرسال', 'error'); }
         };
 
-        window.handleEdit = (id) => {
-            const row = cachedData.find(r => r.id === id);
-            if(!row) return;
+        window.handleEdit = async (id) => {
+            // Handle Integer vs String ID compatibility (Postgres ID is int, passed from string URL)
+            const row = cachedData.find(r => r.id == id);
+            if (!row) return;
+
             editId = id;
 
-            // Logic to populate forms based on data type
-            if(row.unit === 'جزء') {
+            if (row.unit === 'جزء') {
                 navigateTo('reciters');
                 document.getElementById('reciter-name').value = row.qwe;
                 document.getElementById('reciter-amount').value = row.asdText;
                 document.getElementById('reciter-score').value = row.score;
                 document.getElementById('reciter-level').value = row.zxc;
                 toggleEditButton('#btn-submit-reciter', 'تحديث المختبر', '#btn-cancel-reciter');
-            } else if(row.frequency === 'stages') {
+            } 
+            else if (row.frequency === 'stages') {
                 navigateTo('stages');
                 document.getElementById('stages-name').value = row.qwe;
                 document.getElementById('stages-unit').value = row.unit;
+                document.getElementById('stages-amount').value = row.asd;
                 document.getElementById('stages-score').value = row.score;
                 document.getElementById('stages-level').value = row.zxc;
                 document.getElementById('stages-notes').value = row.nmk || '';
                 toggleEditButton('#btn-submit-stage', 'تحديث المرحلة', '#btn-cancel-stage');
-            } else {
+            } 
+            else {
                 openTracking(row.frequency);
                 document.getElementById('student-name').value = row.qwe;
                 document.getElementById('level').value = row.zxc;
                 document.getElementById('notes').value = row.nmk || '';
-                if(row.attr) document.getElementById('attendance').value = row.attr;
+                if (row.attr) document.getElementById('attendance').value = row.attr;
                 
-                if(row.frequency === 'monthly') {
+                if (row.frequency === 'monthly') {
                     document.getElementById('monthly-text').value = row.asdText || '';
                 } else {
-                    if(row.page_from !== undefined && row.page_to !== undefined) {
+                    if (row.page_from !== undefined && row.page_to !== undefined) {
                         document.getElementById('amount-from').value = row.page_from;
                         document.getElementById('amount-to').value = row.page_to;
                         document.getElementById('amount-total').value = row.page_to - row.page_from;
+                    } else if (row.asd) {
+                        document.getElementById('amount-total').value = row.asd;
                     }
                 }
                 toggleEditButton('#btn-submit-entry', 'حفظ التعديلات', '#btn-cancel-entry');
             }
+
+            // Smooth scroll
+            document.getElementById('teacher-panel').scrollIntoView({behavior: "smooth"});
+            document.getElementById('reciters-panel').scrollIntoView({behavior: "smooth"});
+            document.getElementById('stages-panel').scrollIntoView({behavior: "smooth"});
         };
 
         function toggleEditButton(submitBtnId, text, cancelBtnId) {
-            document.querySelector(submitBtnId).innerHTML = `<i class="fas fa-edit"></i> ${text}`;
-            document.querySelector(cancelBtnId).style.display = 'inline-flex';
+            const btn = document.querySelector(submitBtnId);
+            if(btn) btn.innerHTML = `<i class="fas fa-edit"></i> ${text}`;
+            const cancel = document.getElementById(cancelBtnId.replace('#',''));
+            if(cancel) cancel.style.display = 'inline-flex';
         }
 
         window.handleCancelEdit = () => {
             editId = null;
             document.querySelectorAll('form').forEach(f => f.reset());
-            document.querySelectorAll('.btn-cancel-edit').forEach(b => b.style.display = 'none');
+            document.querySelectorAll('.btn-cancel-edit').forEach(btn => btn.style.display = 'none');
+
+            const entryBtn = document.getElementById('btn-submit-entry');
+            if(entryBtn) entryBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> تحديث البيانات';
             
-            document.getElementById('btn-submit-entry').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> تحديث البيانات';
-            document.getElementById('btn-submit-reciter').innerHTML = '<i class="fas fa-save"></i> حفظ المختبر';
-            document.getElementById('btn-submit-stage').innerHTML = '<i class="fas fa-award"></i> حفظ المرحلة';
+            const reciterBtn = document.getElementById('btn-submit-reciter');
+            if(reciterBtn) reciterBtn.innerHTML = '<i class="fas fa-save"></i> حفظ المختبر';
             
+            const stageBtn = document.getElementById('btn-submit-stage');
+            if(stageBtn) stageBtn.innerHTML = '<i class="fas fa-award"></i> حفظ المرحلة';
+
             if(currentView === 'dashboard') {
                 document.getElementById('attendance').value = 'present';
-                if(selectedTrackingFreq === 'monthly') document.getElementById('monthly-text').value = "";
-                else { document.getElementById('amount-from').value = ""; document.getElementById('amount-to').value = ""; document.getElementById('amount-total').value = ""; }
+                if(selectedTrackingFreq === 'monthly') {
+                    document.getElementById('monthly-text').value = "";
+                } else {
+                    document.getElementById('amount-from').value = "";
+                    document.getElementById('amount-to').value = "";
+                }
             }
         }
 
-        window.handleClearAll = async () => {
-            if(!confirm('هل أنت متأكد من مسح كل البيانات الظاهرة؟')) return;
-            // Filter logic to delete specific items
-            const idsToDelete = [];
-            const now = new Date();
-            
-            cachedData.forEach(r => {
-                let shouldDelete = false;
-                if (currentView === 'dashboard') {
-                    if (r.frequency === selectedTrackingFreq && r.unit !== 'جزء' && r.frequency !== 'stages') shouldDelete = true;
-                } else if (currentView === 'stages') {
-                    if (r.frequency === 'stages') shouldDelete = true;
-                } else if (currentView === 'reciters') {
-                    if (r.unit === 'جزء') shouldDelete = true; // Simplified: delete all parts for now or check date
-                }
-                if(shouldDelete && r.type !== 'separator') idsToDelete.push(r.id);
-            });
-
-            for(let id of idsToDelete) {
-                await fetch(`/api/records/${id}`, { method: 'DELETE' });
+        window.handleDelete = async (id) => {
+            if(confirm('حذف التقييم نهائياً؟')) {
+                try {
+                    await fetch(`/api/records/${id}`, { method: 'DELETE' });
+                    if(editId == id) handleCancelEdit();
+                    showToast('تم الحذف', 'success');
+                    fetchRecords();
+                } catch(err) { showToast('فشل الحذف', 'error'); }
             }
-            showToast(`تم مسح ${idsToDelete.length} سجل`, 'success');
-            fetchRecords();
+        };
+
+        window.handleClearAll = async () => {
+            if (confirm('هل أنت متأكد من مسح جميع البيانات الظاهرة في هذه الصفحة؟')) {
+                if (!cachedData) return;
+
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+
+                let count = 0;
+                
+                // Iterate and delete
+                for (let row of cachedData) {
+                    let isVisible = false;
+
+                    if (currentView === 'dashboard') {
+                        if (row.frequency === selectedTrackingFreq && row.unit !== 'جزء' && row.frequency !== 'stages') {
+                            isVisible = true;
+                        }
+                    } else if (currentView === 'stages') {
+                        if (row.frequency === 'stages') isVisible = true;
+                    } else if (currentView === 'reciters') {
+                        if (row.unit === 'جزء') {
+                            // Simple date check logic for clear all
+                            isVisible = true; 
+                        }
+                    }
+
+                    if (isVisible && row.type !== 'separator') {
+                        try {
+                            await fetch(`/api/records/${row.id}`, { method: 'DELETE' });
+                            count++;
+                        } catch (e) { console.error(e); }
+                    }
+                }
+
+                if (count > 0) {
+                    showToast(`تم مسح ${count} سجل بنجاح`, 'success');
+                    fetchRecords();
+                } else {
+                    showToast('لا توجد بيانات لمسحها', 'info');
+                }
+            }
         };
 
         // --- Rendering ---
@@ -751,35 +910,42 @@
             const table = document.getElementById('records-table');
             body.innerHTML = ''; 
             let s=0, e=0, n=0;
+            
+            const isAdmin = (document.getElementById('btn-logout').style.display === 'inline-block');
             const likedIds = JSON.parse(localStorage.getItem('hifz_platform_likes') || "[]");
             const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
 
-            let visibleRows = 0;
-
-            // Helper to check visibility
-            const isVisible = (row) => {
+            // Filter Logic
+            let visibleCount = 0;
+            const filtered = cachedData.filter(row => {
                 if (row.type === 'separator') {
                     if (currentView === 'dashboard' && row.frequency === selectedTrackingFreq) return true;
                     if (currentView === 'reciters' && row.frequency === 'reciters') return true;
                     if (currentView === 'stages' && row.frequency === 'stages') return true;
                     return false;
                 }
+
                 if (currentView === 'dashboard') {
                     return (row.frequency === selectedTrackingFreq && row.unit !== 'جزء' && row.frequency !== 'stages');
+                } else if (currentView === 'stages') {
+                    return (row.frequency === 'stages');
+                } else if (currentView === 'reciters') {
+                    if (row.unit === 'جزء') {
+                         // Simple logic: Show all parts
+                         return true;
+                    }
                 }
-                if (currentView === 'reciters') return (row.unit === 'جزء');
-                if (currentView === 'stages') return (row.frequency === 'stages');
                 return false;
-            };
-
-            const filtered = cachedData.filter(isVisible);
+            });
 
             if(filtered.length === 0) { empty.style.display='block'; table.style.display='none'; }
             else {
                 empty.style.display='none'; table.style.display='table';
                 
                 filtered.forEach(row => {
-                    // Separator Logic
+                    // Separator Rendering
                     if (row.type === 'separator') {
                         const colSpan = (currentView === 'reciters' || currentView === 'stages') ? 7 : 6;
                         body.innerHTML += `
@@ -787,55 +953,70 @@
                                 <td colspan="${colSpan}">
                                     <div class="red-separator-line">
                                         ${row.dayLabel ? `<div class="separator-label">${row.dayLabel}</div>` : ''}
-                                        ${isAdmin ? `<button class="separator-delete-btn" onclick="handleDelete(${row.id})" title="حذف الخط">x</button>` : ''}
+                                        ${isAdmin ? `<button class="separator-delete-btn" onclick="handleDelete('${row.id}')" title="حذف الخط">x</button>` : ''}
                                     </div>
                                 </td>
                             </tr>`;
                         return;
                     }
 
-                    // Normal Row
-                    visibleRows++;
+                    // Normal Row Rendering
+                    visibleCount++;
                     if(row.zxc==='excellent') e++; else if(row.zxc==='needs-improvement') n++;
-
-                    const dateStr = row.uoi ? new Intl.DateTimeFormat('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(row.uoi)) : '';
                     
-                    let amountText = row.asdText || `${row.asd || ''} ${row.unit || ''}`.trim();
-                    if((row.frequency === 'daily' || row.frequency === 'weekly') && row.asdText) {
-                        amountText = `${row.asdText} <span class="total-badge">(${row.asd})</span>`;
-                    }
-
-                    const badgeClass = row.zxc==='excellent'?'badge-excellent':(row.zxc==='needs-improvement'?'badge-needs-improvement':'badge-good');
-                    const badgeText = row.zxc==='excellent'?'ممتاز':(row.zxc==='needs-improvement'?'تحسين':'جيد');
-
+                    const t = row.uoi ? new Intl.DateTimeFormat('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(row.uoi)) : '';
+                    badgeClass = row.zxc==='excellent'?'badge-excellent':(row.zxc==='needs-improvement'?'badge-needs-improvement':'badge-good');
+                    badgeText = row.zxc==='excellent'?'ممتاز':(row.zxc==='needs-improvement'?'تحسين':'جيد');
+                    
+                    const currentLikes = row.likes || 0;
                     const isLiked = likedIds.includes(row.id);
+
                     const likeHTML = `
-                        <button class="btn-like" onclick="handleLike(${row.id})" ${isLiked ? 'disabled' : ''}>
+                        <button class="btn-like" onclick="handleLike('${row.id}')" ${isLiked ? 'disabled' : ''}>
                             <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
-                            <span class="like-count">${row.likes || 0}</span>
+                            <span class="like-count">${currentLikes}</span>
                         </button>`;
 
                     let actionsHTML = '';
-                    if(isAdmin) {
-                        actionsHTML += `<button onclick="handleEdit(${row.id})" class="btn-edit"><i class="fas fa-pen"></i></button>`;
-                        actionsHTML += `<button onclick="handleDelete(${row.id})" class="btn-delete"><i class="fas fa-trash"></i></button>`;
+                    if (isAdmin) {
+                        actionsHTML += `<button onclick="handleEdit('${row.id}')" class="btn-edit"><i class="fas fa-pen"></i></button>`;
+                        actionsHTML += `<button onclick="handleDelete('${row.id}')" class="btn-delete"><i class="fas fa-trash"></i></button>`;
                     }
 
-                    let statusBadge = '';
-                    if(row.attr === 'absent') statusBadge = `<span class="badge badge-needs-improvement" style="margin-right:5px;">غائب</span>`;
-                    else if(row.attr === 'present') statusBadge = `<span class="badge badge-excellent" style="margin-right:5px;">حاضر</span>`;
-
+                    // Score Logic
                     let scoreHTML = '';
-                    if(currentView === 'reciters' || currentView === 'stages') {
-                         scoreHTML = `<td style="text-align:center; font-weight:bold; color:var(--primary-color);">${row.score}%</td>`;
+                    if (currentView === 'reciters' || currentView === 'stages') {
+                        const scoreVal = row.score !== undefined ? row.score : '-';
+                        scoreHTML = `<td style="text-align:center; font-weight:bold; color:var(--primary-color);">${scoreVal}%</td>`;
                     } else {
                         scoreHTML = `<td></td>`;
+                    }
+
+                    // Amount Text Logic
+                    let displayAmountText = "";
+                    if ((row.frequency === 'daily' || row.frequency === 'weekly') && row.asdText) {
+                        const totalNumber = row.asd !== undefined ? row.asd : 0;
+                        displayAmountText = `${row.asdText} <span class="total-badge">(${totalNumber})</span>`;
+                    } else if (row.asdText) {
+                        displayAmountText = row.asdText;
+                    } else if (row.asd || row.unit) {
+                        displayAmountText = `${row.asd || ''} ${row.unit || ''}`.trim(); 
+                    } else {
+                        displayAmountText = row.unit || '';
+                    }
+
+                    // Status Badge
+                    let statusBadge = '';
+                    if (row.attr === 'absent') {
+                        statusBadge = `<span class="badge badge-needs-improvement" style="margin-right:5px;">غائب</span>`;
+                    } else if (row.attr === 'present') {
+                        statusBadge = `<span class="badge badge-excellent" style="margin-right:5px;">حاضر</span>`;
                     }
 
                     body.innerHTML += `
                         <tr>
                             <td style="font-weight:bold; font-size:0.9rem;">${row.qwe} ${statusBadge}</td>
-                            <td style="font-size:0.9rem;">${amountText}</td>
+                            <td style="font-size:0.9rem;">${displayAmountText}</td>
                             ${scoreHTML}
                             <td>
                                 <div class="rating-wrapper">
@@ -844,13 +1025,16 @@
                                 </div>
                             </td>
                             <td style="font-size: 0.85rem; max-width:100px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${row.nmk||'-'}</td>
-                            <td style="font-size: 0.8rem; color:#6B7280;">${dateStr}</td>
+                            <td style="font-size: 0.8rem; color:#6B7280;">${t}</td>
                             <td>${actionsHTML}</td>
                         </tr>`;
                 });
             }
-            
-            document.getElementById('stat-total').innerText=visibleRows; 
+
+            if(visibleCount === 0) { empty.style.display='block'; table.style.display='none'; }
+            else { empty.style.display='none'; table.style.display='table'; }
+
+            document.getElementById('stat-total').innerText=visibleCount; 
             document.getElementById('stat-excellent').innerText=e; 
             document.getElementById('stat-review').innerText=n;
         }
@@ -859,16 +1043,21 @@
             const c = document.getElementById('toast-container');
             const t = document.createElement('div');
             t.className = 'toast';
-            const colors = { 'success': '#10B981', 'error': '#c90e0e', 'info': '#3B82F6' };
-            t.style.backgroundColor = colors[type] || '#333';
+
+            t.style.backgroundColor =
+                type === 'success' ? 'var(--success)' :
+                type === 'error'   ? 'var(--danger)'  :
+                type === 'warning' ? 'var(--secondary)' : 
+                                     'var(--info)';
+
             t.innerHTML = msg;
             c.appendChild(t);
+
             setTimeout(() => t.remove(), 3000);
         }
-
+        
         // Initial Load
         fetchRecords();
-        updateUIState();
     </script>
 </body>
 </html>
