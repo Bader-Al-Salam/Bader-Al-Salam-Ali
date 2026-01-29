@@ -1,74 +1,66 @@
 const express = require('express');
-const { Pool } = require('pg'); // مكتبة الاتصال بقاعدة بيانات PostgreSQL
+const { Pool } = require('pg');
 const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 1. إعدادات الوسيط (Middleware)
+// Middleware
 app.use(cors());
 app.use(express.json());
-// لجعل السيرفر يخدم ملفات الموقع (HTML, CSS, Images) الموجودة في نفس المجلد
-app.use(express.static(__dirname)); 
+app.use(express.static(__dirname)); // لتقديم ملف index.html
 
-// 2. إعداد الاتصال بقاعدة البيانات
-// في السحابة (مثل Render) سيتم استخدام متغير البيئة DATABASE_URL تلقائياً
-// في الكمبيوتر المحلي، إذا لم يوجد متغير، سيربط بقاعدة محلية (اختياري)
+// إعداد الاتصال
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgres://user:password@localhost:5432/halaqah',
+  connectionString: process.env.DATABASE_URL,
   ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
 });
 
-// 3. تهيئة الجدول (يتأكد من وجوده وينشئه إذا لم يكن موجوداً)
+// دالة تهيئة القاعدة
 async function initDb() {
     try {
-        const createTableQuery = `
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS records (
-                id SERIAL PRIMARY KEY,         -- معرف تلقائي
-                qwe TEXT,                      -- اسم الطالب
-                asd INTEGER DEFAULT 0,         -- المقدار الرقمي
-                asdText TEXT,                 -- نص المقدار
-                unit TEXT,                    -- الوحدة (جزء، صفحة، إلخ)
-                score INTEGER,                -- الدرجة
-                zxc TEXT,                     -- التقييم (ممتاز، جيد...)
-                nmk TEXT,                     -- الملاحظات
-                frequency TEXT,               -- نوع المتابعة (يومي، شهري...)
-                attr TEXT,                    -- الحضور/غياب
-                likes INTEGER DEFAULT 0,      -- عدد الإعجابات
-                uoi BIGINT,                   -- الطابع الزمني (Timestamp)
-                type TEXT DEFAULT 'record'    -- نوع السجل (عادي أو فاصل)
+                id SERIAL PRIMARY KEY,
+                qwe TEXT,
+                asd INTEGER DEFAULT 0,
+                asdText TEXT,
+                unit TEXT,
+                score INTEGER,
+                zxc TEXT,
+                nmk TEXT,
+                frequency TEXT,
+                attr TEXT,
+                likes INTEGER DEFAULT 0,
+                uoi BIGINT,
+                type TEXT DEFAULT 'record'
             )
-        `;
-        await pool.query(createTableQuery);
+        `);
         console.log('Database connected & table is ready.');
     } catch (err) {
         console.error('Error initializing database:', err.message);
+        throw err; // إيقاف السيرفر إذا فشلت القاعدة
     }
 }
 
-initDb();
-
-// --- API Routes ---
-
-// (1) جلب جميع السجلات
+// API Routes (نفس الأكواد الموجودة لديك)
 app.get('/api/records', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM records ORDER BY uoi DESC');
         res.json({ "message": "success", "data": result.rows });
     } catch (err) {
-        console.error('Error fetching records:', err);
         res.status(500).json({ "error": err.message });
     }
 });
 
-// (2) إضافة سجل جديد
 app.post('/api/records', async (req, res) => {
     try {
         const data = req.body;
-        // استخدام الوقت الحالي إذا لم يرسله الموقع
         const timestamp = data.uoi || Date.now();
-        
+        // التأكد من وجود unit لعدم حدوث أخطاء
+        const unitValue = data.unit || (data.frequency === 'monthly' ? 'جزء' : 'صفحة');
+
         const query = `
             INSERT INTO records (qwe, asd, asdText, unit, score, zxc, nmk, frequency, attr, likes, uoi, type) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
@@ -76,7 +68,7 @@ app.post('/api/records', async (req, res) => {
         `;
         
         const values = [
-            data.qwe, data.asd, data.asdText, data.unit, data.score, data.zxc, 
+            data.qwe, data.asd, data.asdText, unitValue, data.score, data.zxc, 
             data.nmk, data.frequency, data.attr, 0, timestamp, data.type || 'record'
         ];
 
@@ -88,10 +80,11 @@ app.post('/api/records', async (req, res) => {
     }
 });
 
-// (3) تعديل سجل موجود
 app.put('/api/records/:id', async (req, res) => {
     try {
         const data = req.body;
+        const unitValue = data.unit || (data.frequency === 'monthly' ? 'جزء' : 'صفحة');
+        
         const query = `
             UPDATE records 
             SET qwe=$1, asd=$2, asdText=$3, unit=$4, score=$5, zxc=$6, nmk=$7, frequency=$8, attr=$9, uoi=$10 
@@ -99,41 +92,39 @@ app.put('/api/records/:id', async (req, res) => {
         `;
         
         const values = [
-            data.qwe, data.asd, data.asdText, data.unit, data.score, data.zxc, 
+            data.qwe, data.asd, data.asdText, unitValue, data.score, data.zxc, 
             data.nmk, data.frequency, data.attr, data.uoi, req.params.id
         ];
 
         await pool.query(query, values);
-        res.json({ "message": "success", "changes": 1 });
+        res.json({ "message": "success" });
     } catch (err) {
-        console.error('Error updating record:', err);
         res.status(500).json({ "error": err.message });
     }
 });
 
-// (4) حذف سجل
 app.delete('/api/records/:id', async (req, res) => {
     try {
         await pool.query('DELETE FROM records WHERE id = $1', [req.params.id]);
         res.json({ "message": "deleted" });
     } catch (err) {
-        console.error('Error deleting record:', err);
         res.status(500).json({ "error": err.message });
     }
 });
 
-// (5) زيادة الإعجاب (Like)
 app.post('/api/records/:id/like', async (req, res) => {
     try {
         await pool.query('UPDATE records SET likes = likes + 1 WHERE id = $1', [req.params.id]);
         res.json({ "message": "liked" });
     } catch (err) {
-        console.error('Error liking record:', err);
         res.status(500).json({ "error": err.message });
     }
 });
 
 // تشغيل السيرفر
-app.listen(PORT, () => {
-    console.log(`Server is running successfully on port ${PORT}`);
-});
+(async () => {
+    await initDb();
+    app.listen(PORT, () => {
+        console.log(`Server is running successfully on port ${PORT}`);
+    });
+})();
